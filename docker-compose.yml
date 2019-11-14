@@ -1,0 +1,37 @@
+version: "3"
+services:
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    expose:
+      - "27017"
+    volumes:
+      - "./data/db:/data/db"
+
+  express:
+    image: node:latest
+    working_dir: /usr/src/app/deployed-app
+    ports:
+      - "8000:8000"
+    expose:
+      - "8000"
+    depends_on:
+      - mongo
+    volumes:
+      - ./api:/usr/src/app/deployed-app
+    command: bash -c "npm i && npm start"
+
+  react: 
+    image: node:latest
+    working_dir: /usr/src/app/deployed-app
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    depends_on:
+      - express
+    volumes:
+      - ./client:/usr/src/app/deployed-app
+    command: bash -c "npm i && npm start"

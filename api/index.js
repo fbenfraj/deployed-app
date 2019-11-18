@@ -22,7 +22,7 @@ mongoose.connect(
 );
 
 app.get('/ping', (req, res) => {
-  res.send("I'm alive! :)");
+  res.send("I'm alive!");
 });
 
 require('./routes/users')(app);
